@@ -2,6 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const userRoutes = require('./Routers/userRouter');
 
 
 const room = ['General', 'Private'];
@@ -30,3 +31,7 @@ app.listen(PORT, () => {
 
 // Database connection
 require('./Connection/Connection')
+
+
+// Routers Path
+app.use('/', userRoutes);

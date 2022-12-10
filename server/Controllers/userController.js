@@ -3,11 +3,11 @@ const User = require('../Models/userModels');
 // User SignUp
 
 const userSigup = async (req, res) => {
-    const { userName, email, password, picture } = req.body;
+    const { userName, email, password} = req.body;
     console.log(req.body);
 
     try {
-        const user = await User.signUp(userName, email, password, picture)
+        const user = await User.signUp(userName, email, password)
 
         res.status(200).json({user})
     } catch(error) {

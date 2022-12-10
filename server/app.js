@@ -20,7 +20,7 @@ const PORT = process.env.PORT;
 
 const io = require('socket.io')(server, {
     cors: {
-        origin: 'http://localhost:3000',
+        origin: 'http://localhost:4000',
         methods: ['GET', 'POST']
     }
 })
@@ -34,4 +34,6 @@ require('./Connection/Connection')
 
 
 // Routers Path
+
+// Authentication
 app.use('/', userRoutes);

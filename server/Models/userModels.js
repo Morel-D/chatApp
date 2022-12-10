@@ -8,7 +8,7 @@ const bycrpt = require('bcrypt');
 const UserModel = new Schema(
     {
         userName: { type: String, required: true },
-        email: { type: String, required: true, index: true },
+        email: { type: String, required: true },
         password: { type: String, required: true },
         picture: { type: String },
         newMessage: { type: Object, default: {} },
@@ -52,7 +52,7 @@ UserModel.statics.signUp = async function(userName, email, password, picture)
 
     
 
-// Find credantials 
+// Login Procedure
 
 UserModel.statics.findByCredentials = async function (email, password)
 {

@@ -11,7 +11,7 @@ const UserModel = new Schema(
         email: { type: String, required: true },
         password: { type: String, required: true },
         picture: { type: String },
-        newMessage: { type: Object, default: {} },
+        newMessage: { type: Object, default: {}, required: true },
         status: { type: String, default: "Online" } 
     },
     { minimize: true, timestamps: true },

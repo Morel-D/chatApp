@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const userRoutes = require('./Routers/userRouter');
+const chatRoutes = require('./Routers/chatRouter');
 
 
 const room = ['General', 'Private'];
@@ -37,3 +38,6 @@ require('./Connection/Connection')
 
 // Authentication
 app.use('/', userRoutes);
+
+//Chat 
+app.use('/chat', chatRoutes);

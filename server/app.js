@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const userRoutes = require('./Routers/userRouter');
 const chatRoutes = require('./Routers/chatRouter');
+const messageRoutes = require('./Routers/messageRouter');
 
 
 const room = ['General', 'Private'];
@@ -41,3 +42,6 @@ app.use('/', userRoutes);
 
 //Chat 
 app.use('/chat', chatRoutes);
+
+// messsage
+app.use('/message', messageRoutes);

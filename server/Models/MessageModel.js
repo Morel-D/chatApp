@@ -6,7 +6,7 @@ const messageSchema = new Schema(
     {
         chatId: { type: String },
         senderId: { type: String },
-        message: { type: String }
+        text: { type: String }
     },  { timestamps: true }
 )
 

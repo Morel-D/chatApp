@@ -1,6 +1,8 @@
 const chatModel = require('../Models/ChatModel');
 const mongoose = require('mongoose');
 
+
+// Create a chat
 const createChat = (req, res) => {
 
     const newChat = new chatModel({
@@ -19,6 +21,7 @@ const createChat = (req, res) => {
 }
 
 
+// Find a userchart
 const userChat = (req, res) => {
 
     const id = mongoose.Types.ObjectId(req.params.userId);
@@ -30,12 +33,15 @@ const userChat = (req, res) => {
 
 }
 
+
+
 const findChat = (req, res) => {
 
-    const firstId = mongoose.Types.ObjectId(req.params.firstId);
-    const  secondId = mongoose.Types.ObjectId(req.params.secondId);
+    const firstID = mongoose.Types.ObjectId(req.params.firstId);
+    const  secondID = mongoose.Types.ObjectId(req.params.secondId);
 
-    chatModel.findOne(firstId, secondId).then((chat) => {
+    chatModel.findById(firstID, secondID)
+        .then((chat) => {
         res.status(200).json(chat)
     }).catch((error) => {
         res.status(400).json(error.message)

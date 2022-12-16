@@ -10,7 +10,7 @@ const UserModel = new Schema(
         userName: { type: String, required: true },
         email: { type: String, required: true },
         password: { type: String, required: true },
-        picture: { type: String },
+        picture: { type: String, required: true },
         newMessage: { type: Object, default: {}, required: true },
         status: { type: String, default: "Online" } 
     },

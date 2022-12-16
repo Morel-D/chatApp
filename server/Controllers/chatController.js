@@ -24,8 +24,8 @@ const createChat = (req, res) => {
 // Find a userchart
 const userChat = (req, res) => {
 
-    const id = mongoose.Types.ObjectId(req.params.userId);
-    chatModel.findById(id).then((chat) => {
+    const userID = {members: {$in: [req.params.userId]}}
+    chatModel.find(userID).then((chat) => {
         res.status(200).json(chat)
     }).catch((error) => {
         res.status(400).json(error.message)

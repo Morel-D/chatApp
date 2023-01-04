@@ -3,13 +3,27 @@ import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import Conversation from "./Conversation";
 import Message from "./message";
+import { io } from "socket.io-client";
+import { useRef } from "react";
 
 const Private = () => {
 
     const [chats, setChats] = useState();
     const { user } = useAuthContext();
     const [currentChat, setCurrentChat] = useState(null);
+    const [onlineUsers, setOnlineUsers] = useState([]);
+    const socket = useRef();
 
+    useEffect(() => {
+        socket.current = io('http://localhost:8800');
+        socket.current.emit('new-user-add', user._id)
+        socket.current.on('get-users', (users) => {
+            setOnlineUsers(users)
+            console.log("Online ", users);
+        })
+    }, [user])
+
+    console.log('world online ', onlineUsers);
 
     useEffect(() => {
 

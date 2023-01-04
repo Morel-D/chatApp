@@ -20,12 +20,12 @@ app.use(cors());
 const server = require('http').createServer(app);
 const PORT = process.env.PORT;
 
-const io = require('socket.io')(server, {
-    cors: {
-        origin: 'http://localhost:4000',
-        methods: ['GET', 'POST']
-    }
-})
+// const io = require('socket.io')(server, {
+//     cors: {
+//         origin: 'http://localhost:4000',
+//         methods: ['GET', 'POST']
+//     }
+// })
 
 app.listen(PORT, () => {
     console.log('The app is listening on port ', PORT)

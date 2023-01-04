@@ -39,7 +39,7 @@ const Message = ({ chat }) => {
             }).then((data) => {
              
                 setMessages(data)
-            console.log(data)
+            // console.log(data)
         })
         }
         
@@ -62,11 +62,15 @@ const Message = ({ chat }) => {
                     <div className="card py-4 px-5 my-2">
                        <div className="row">
                     {userData && (
-                        <div className="col"><img src={userData.picture} id="userpro2" /><label className="lead mx-3">{userData.userName}</label></div>
+                        <div className="col"><img src={userData.picture} id="userpro2" /><label className="lead mx-3">{userData.userName}</label>
+                            <small className="text-danger"><i>Online</i></small>
+                        </div>
                     )}
                     
                     {!userData && (
-                        <div className="col"><img src={userPng} id="userpro2" /><label className="lead mx-3">No User</label></div>
+                        <div className="col"><img src={userPng} id="userpro2" /><label className="lead mx-3">No User</label>
+                       
+                        </div>
                         )  }
                         </div>
             </div>

@@ -3,15 +3,27 @@ import { useEffect } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import userPng from "../../Images/user.png";
 import { format } from "timeago.js";
+import { useRef } from "react";
 
-const Message = ({ chat }) => {
+const Message = ({ chat, setSendMsg, receiveMsg }) => {
 
     const [userData, setUserData] = useState(null);
     const { user } = useAuthContext();
     const [message, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState();
+    const scroll = useRef();
 
     const userId = chat?.members?.find((id) => id !== user._id);
+
+
+    useEffect(() => {
+        if (receiveMsg !== null && receiveMsg?.chat._id === chat?._id)
+        {
+            console.log("Data recieved in child chatBox :", receiveMsg)
+            setMessages([...message, receiveMsg]);
+        }
+        
+    })
 
 // feching data for members 
 
@@ -52,8 +64,7 @@ const Message = ({ chat }) => {
 
 
 // send mesage
-    const handleSendMessage = (e) => 
-    {
+    const handleSendMessage = (e) => {
         e.preventDefault();
 
         const sendMessage = {
@@ -67,13 +78,22 @@ const Message = ({ chat }) => {
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(sendMessage)
         }).then((data) => {
-            if (data.ok)
-            {
+            if (data.ok) {
                 setNewMessage('')
-            } 
+            }
         })
         
-        }
+
+        // send message to socket server
+        setSendMsg({ ...message, userId })
+
+
+    };
+        
+    // always scroll the message
+    useEffect(() => {
+         scroll.current?.scrollIntoView({ behavior: "smooth" })
+    }, [message])
     
     return ( 
         <div className="message">
@@ -81,7 +101,7 @@ const Message = ({ chat }) => {
                        <div className="row">
                     {userData && (
                         <div className="col"><img src={userData.picture} id="userpro2" /><label className="lead mx-3">{userData.userName}</label>
-                            <small className="text-danger"><i>Online</i></small>
+                            {/* <small className="text-danger"><i>Online</i></small> */}
                         </div>
                     )}
                     
@@ -95,7 +115,7 @@ const Message = ({ chat }) => {
             
             {chat && (
                 <div>
-                                       <div id="message-form">         
+                                       <div ref={scroll}  id="message-form">         
                 
                 {message && message.map((msg) => ( 
                     

@@ -26,16 +26,7 @@ const Private = () => {
         }
         
     }, [sendMsg])
-
-
-    // receive message from the socket server
-
-    // useEffect(() => {
-    //     socket.current.on('receive-message', (data) => {
-    //         setReceiveMsg(data)
-    //     })
-    // }, [])
-
+  
     useEffect(() => {
         socket.current = io('http://localhost:8800');
         socket.current.emit('new-user-add', user._id)
@@ -44,6 +35,16 @@ const Private = () => {
             // console.log("Online ", users);
         })
     }, [user])
+
+
+
+      // receive message from the socket server
+
+      useEffect(() => {
+        socket.current.on('receive-message', (data) => {
+            setReceiveMsg(data)
+        })
+    }, [])
 
     useEffect(() => {
 
@@ -67,8 +68,17 @@ const Private = () => {
 
         getChat()
 
-    }, [])
+    }, [user])
 
+
+        // Check online status
+
+    const checkonlineStatus = (chat) => {
+        const userId = user._id
+        const chatMembers = chat.members.find((member) => member !== user._id);
+        const online = onlineUsers.find((user) => user.userId == chatMembers)
+        return online? true : false 
+        }
 
     return (
        
@@ -80,7 +90,7 @@ const Private = () => {
                    chats &&  chats.map((chat) =>
                      (
                        <div onClick={() => setCurrentChat(chat)}>
-                            <Conversation key={ chat._id } chat={chat} />
+                            <Conversation key={ chat._id } chat={chat} online ={checkonlineStatus(chat)}/>
                      </div>
                      ))
                  }
@@ -88,7 +98,7 @@ const Private = () => {
 
                 <div className="col">
                     <div className="container py-2">
-                    <Message chat={currentChat} />
+                    <Message chat={currentChat} setSendMsg ={setSendMsg} receiveMsg ={receiveMsg}  />
                    </div>
                 </div>
             </div>

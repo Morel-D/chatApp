@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-const Conversation = ({ chat}) => {
+const Conversation = ({ chat, online}) => {
     
     const [userData, setUserData] = useState();
     const { user } = useAuthContext();
@@ -28,7 +28,8 @@ const Conversation = ({ chat}) => {
         <div className="shadow-sm p-3 m-2 box">
             <img src={userData &&    userData.picture} alt="" id="userpro" /> 
                  <label className="text-secondary mx-3 lead">
-                    {userData && userData.userName }
+                {userData && userData.userName}
+                {online && online ? <small className="mx-2 text-danger"><i>online</i></small> : <small className="mx-2 text-secondary"><i>offline</i></small>}
                 </label>        
         </div>
      );

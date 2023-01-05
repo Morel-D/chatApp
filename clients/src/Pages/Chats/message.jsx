@@ -52,8 +52,26 @@ const Message = ({ chat }) => {
 
 
 // send mesage
-    const handleSendMessage = () => 
+    const handleSendMessage = (e) => 
     {
+        e.preventDefault();
+
+        const sendMessage = {
+            senderId: user._id,
+            chatId: chat._id,
+            text: newMessage
+        }
+
+        fetch('/message', {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(sendMessage)
+        }).then((data) => {
+            if (data.ok)
+            {
+                setNewMessage('')
+            } 
+        })
         
         }
     
@@ -93,7 +111,7 @@ const Message = ({ chat }) => {
                 ))}
                 
                     </div>
-                    <form action="">
+                    <form onSubmit={handleSendMessage}>
                         <div className="row">
                             <div className="col">
                                 <div className="text-center bg-secondary p-2 rounded">
@@ -104,7 +122,10 @@ const Message = ({ chat }) => {
                                 
                             </div>
                             <div className="col col-9">
-                                <input type="text" placeholder="Enter your message" className="form-control"/>
+                                <input type="text" placeholder="Enter your message" className="form-control"
+                                    value={newMessage}
+                                    onChange ={(e) => { setNewMessage(e.target.value)}}
+                                />
                             </div>
                             <div className="col">
                                 <button className="btn btn-danger"><i class="bi bi-send"></i> Send</button>

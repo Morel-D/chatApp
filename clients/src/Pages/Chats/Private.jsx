@@ -12,18 +12,38 @@ const Private = () => {
     const { user } = useAuthContext();
     const [currentChat, setCurrentChat] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
+    const [sendMsg, setSendMsg] = useState(null);
+    const [receiveMsg, setReceiveMsg] = useState(null)
     const socket = useRef();
+
+
+    // Send message form the socket server
+
+    useEffect(() => {
+        if (sendMsg !== null)
+        {
+            socket.current.emit('send-message', sendMsg);
+        }
+        
+    }, [sendMsg])
+
+
+    // receive message from the socket server
+
+    // useEffect(() => {
+    //     socket.current.on('receive-message', (data) => {
+    //         setReceiveMsg(data)
+    //     })
+    // }, [])
 
     useEffect(() => {
         socket.current = io('http://localhost:8800');
         socket.current.emit('new-user-add', user._id)
         socket.current.on('get-users', (users) => {
             setOnlineUsers(users)
-            console.log("Online ", users);
+            // console.log("Online ", users);
         })
     }, [user])
-
-    console.log('world online ', onlineUsers);
 
     useEffect(() => {
 

@@ -4,6 +4,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import userPng from "../../Images/user.png";
 import { format } from "timeago.js";
 import { useRef } from "react";
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 const Message = ({ chat, setSendMsg, receiveMsg }) => {
 
@@ -11,7 +12,7 @@ const Message = ({ chat, setSendMsg, receiveMsg }) => {
     const { user } = useAuthContext();
     const [message, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState();
-    const scroll = useRef();
+    const scroll = useRef(null);
 
     const userId = chat?.members?.find((id) => id !== user._id);
 
@@ -23,7 +24,7 @@ const Message = ({ chat, setSendMsg, receiveMsg }) => {
             setMessages([...message, receiveMsg]);
         }
         
-    })
+    }, [message])
 
 // feching data for members 
 
@@ -60,7 +61,7 @@ const Message = ({ chat, setSendMsg, receiveMsg }) => {
             fetchMessage()
         }
         
-    }, [chat])
+    }, [chat, message])
 
 
 // send mesage
@@ -115,21 +116,28 @@ const Message = ({ chat, setSendMsg, receiveMsg }) => {
             
             {chat && (
                 <div>
-                                       <div ref={scroll}  id="message-form">         
-                
-                {message && message.map((msg) => ( 
-                    
-                
-                    <div className=
-                        {msg.senderId === user._id ? "chat-Messages p-3 d-flex justify-content-end" : "chat-Messages p-3"} id={msg.senderId === user._id ? "msg-box" : "msg-box2"}>
-                        <div className="card px-4 py-2 col-3 text-white">
-                            <span>{msg.text}</span>
-                            <span className="text-end"><small>{format(msg.createdAt)}</small></span>
-                        </div>
-                    </div>
-               
-                ))}
-                
+
+
+
+                    <div id="message-form">  
+
+
+                         {message && message.map((msg) => ( 
+                             
+                        
+                             <div
+                                 ref={scroll}
+                                 className=
+                                 {msg.senderId === user._id ? "chat-Messages p-3 d-flex justify-content-end" : "chat-Messages p-3"} id={msg.senderId === user._id ? "msg-box" : "msg-box2"}>
+                                 <div className="card px-4 py-2 col-3 text-white">
+                                     <span>{msg.text}</span>
+                                     <span className="text-end"><small>{format(msg.createdAt)}</small></span>
+                                 </div>
+                             </div>
+                        
+                         ))}
+                        
+
                     </div>
                     <form onSubmit={handleSendMessage}>
                         <div className="row">

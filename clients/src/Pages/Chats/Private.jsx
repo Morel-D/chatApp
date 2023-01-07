@@ -90,7 +90,7 @@ const Private = () => {
                    chats &&  chats.map((chat) =>
                      (
                        <div onClick={() => setCurrentChat(chat)}>
-                            <Conversation key={ chat._id } chat={chat} online ={checkonlineStatus(chat)}/>
+                            <Conversation key={ chat._id } chat={chat}/>
                      </div>
                      ))
                  }
